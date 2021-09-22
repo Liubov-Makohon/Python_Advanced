@@ -40,10 +40,10 @@ def handle_error(err):
 def get_password(length, specials, digits):
     password_characters = string.ascii_lowercase + string.ascii_uppercase
 
-    if specials == True:
-        password_characters += '!"№;%:?*$()_+.'
+    if specials:
+        password_characters += string.punctuation
 
-    if digits == True:
+    if digits:
         password_characters += string.digits
 
     return ''.join(random.choices(password_characters, k=length))
