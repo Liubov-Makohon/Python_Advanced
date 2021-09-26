@@ -1,3 +1,4 @@
+import faker
 from flask import jsonify
 from flask import Flask
 from webargs import fields
@@ -47,10 +48,18 @@ def get_customers(text):
     query = 'select * from customers'
     text_column_name = ['FirstName', 'LastName', 'Company', 'Address', 'City', 'State', 'Country', 'Email']
     if text:
-        query += ' WHERE ' + ' OR '.join((f'{k} like ?', (text,)) for k in text_column_name)
+        query += ' WHERE ' + ' OR '.join(f'{field} like ?' for field in text_column_name)
 
-    records = execute_query(query)
+    records = execute_query(query, (f'%{text}%',)*len(text_column_name))
     result = format_records(records)
     return result
+
+
+@app.route('/fill_companies')
+def fill_companies():
+    f = faker.Faker()
+    query = f'update customers set company = {f.company()} where company is NULL'
+    result = execute_query(query)
+    return "Record updated successfully"
 
 app.run()
