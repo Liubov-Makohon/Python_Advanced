@@ -1,5 +1,6 @@
 import datetime
 
+from django.core.validators import RegexValidator
 from django.db import models
 
 # Create your models here.
@@ -9,8 +10,13 @@ from faker import Faker
 class Student(models.Model):
     first_name = models.CharField(max_length=60, null=False)
     last_name = models.CharField(max_length=80, null=False)
-    email = models.EmailField(max_length=120, null=True)
+    email = models.EmailField(max_length=120, unique=True, null=True)
     birthdate = models.DateField(null=True, default=datetime.date.today)
+    phone_number = models.CharField(
+        null=True, max_length=14, unique=True, validators=[RegexValidator("\d{10,14}")]
+    )
+    enroll_date = models.DateField(null=True)
+    graduate_date = models.DateField(null=True)
 
     def __str__(self):
         return f"{self.full_name()}, {self.age()}, {self.email} ({self.id})"

@@ -17,8 +17,8 @@ class StudentCreateForm(ModelForm):
             "@xyz.com",
             "@dot.com",
         ]
-        for _ in banned_email:
-            if _ in email:
+        for domain in banned_email:
+            if domain in email:
                 raise ValidationError("You can't use this email")
 
         return email
@@ -29,3 +29,13 @@ class StudentCreateForm(ModelForm):
             raise ValidationError("Student must be 18 or older")
 
         return birthdate
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        enroll_date = cleaned_data["enroll_date"]
+        graduate_date = cleaned_data["graduate_date"]
+        if not enroll_date < graduate_date:
+            raise ValidationError("Enroll date can't be more than graduate_date")
+
+        return cleaned_data
