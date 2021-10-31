@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-        <form action="{{ student.id }}" method="post">
+        <form method="post">
             {{ form|crispy }}
             <input class="btn btn-success" type="submit" value="Edit"/>
         </form>
