@@ -1,7 +1,7 @@
 import datetime
 
 from django.core.exceptions import ValidationError
-from django.forms import ModelForm
+from django.forms import ModelForm, TextInput
 
 from students.models import Student
 
@@ -9,7 +9,8 @@ from students.models import Student
 class StudentCreateForm(ModelForm):
     class Meta:
         model = Student
-        fields = ["first_name", "last_name", "email", "birthdate"]
+        fields = ["first_name", "last_name", "email", "phone_number", "birthdate"]
+        widgets = {"phone_number": TextInput(attrs={"pattern": "\d{10,14}"})}
 
     def clean_email(self):
         email = self.cleaned_data["email"]
@@ -30,12 +31,12 @@ class StudentCreateForm(ModelForm):
 
         return birthdate
 
-    def clean(self):
-        cleaned_data = super().clean()
-
-        enroll_date = cleaned_data["enroll_date"]
-        graduate_date = cleaned_data["graduate_date"]
-        if not enroll_date < graduate_date:
-            raise ValidationError("Enroll date can't be more than graduate_date")
-
-        return cleaned_data
+    # def clean(self):
+    #     cleaned_data = super().clean()
+    #
+    #     enroll_date = cleaned_data["enroll_date"]
+    #     graduate_date = cleaned_data["graduate_date"]
+    #     if not enroll_date < graduate_date:
+    #         raise ValidationError("Enroll date can't be more than graduate_date")
+    #
+    #     return cleaned_data

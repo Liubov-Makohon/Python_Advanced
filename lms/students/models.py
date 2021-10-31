@@ -15,8 +15,8 @@ class Student(models.Model):
     phone_number = models.CharField(
         null=True, max_length=14, unique=True, validators=[RegexValidator("\d{10,14}")]
     )
-    enroll_date = models.DateField(null=True)
-    graduate_date = models.DateField(null=True)
+    # enroll_date = models.DateField(null=True)
+    # graduate_date = models.DateField(null=True)
 
     def __str__(self):
         return f"{self.full_name()}, {self.age()}, {self.email} ({self.id})"

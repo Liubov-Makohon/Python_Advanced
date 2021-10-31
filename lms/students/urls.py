@@ -6,6 +6,6 @@ app_name = "students"
 urlpatterns = [
     path("", get_students, name="list"),
     path("create/", create_student, name="create"),
-    path("edit/<int:pk>/", update_student, name="update"),
+    path("update/<int:pk>/", update_student, name="update"),
     path("delete/<int:pk>/", delete_student, name="delete"),
 ]

@@ -16,20 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from groups.views import get_groups, create_group, update_group
 from students.views import (
     hello,
-    get_students,
-    create_student,
-    update_student,
-    delete_student,
+    index,
 )
-from teachers.views import get_teachers, create_teacher, update_teacher
 
 urlpatterns = [
+    path("", index, name="index"),
     path("admin/", admin.site.urls),
     path("hello/", hello),
     path("students/", include("students.urls")),
     path("teachers/", include("teachers.urls")),
     path("groups/", include("groups.urls")),
 ]
+
+handler404 = "students.views.handler404"
